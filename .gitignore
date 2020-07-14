@@ -3,3 +3,6 @@
 
 # MacOSX
 .DS_Store
+
+# compilation
+__pycache__
