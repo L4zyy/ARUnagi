@@ -2,6 +2,7 @@
 
 import socket 
 import time
+import datetime
 
 HOST = 'localhost' 
 PORT = 13296 
@@ -13,8 +14,6 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST,PORT)) 
 
 import numpy as np
-data = np.arange(5, dtype=np.float32)
-print(data)
 
 s.listen()
 
@@ -24,11 +23,12 @@ while True:
     print("Client connected.")
 
     while True: 
-        conn.send(data.tobytes()) 
+        t = datetime.datetime.now().strftime("%X")
+        print(t)
+        conn.send(t.encode(FORMAT)) 
         msg = conn.recv(HEADER).decode(FORMAT)
         if not msg:
             break
-        msg_length = str(msg)
         print(f"[{addr}] {msg}")
         time.sleep(2)
     print("Client disconnected.")
