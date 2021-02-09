@@ -11,11 +11,20 @@ public class ThreadWorker
     private EventWaitHandle SuspendHandle = new EventWaitHandle(false, EventResetMode.ManualReset);
     private EventWaitHandle AbortHandle = new EventWaitHandle(false, EventResetMode.ManualReset);
     private bool WantAbort = false;
+    
+    public IEnumerator task;
 
-    public void Start(IEnumerator threadImplementation)
+    public delegate void OnDestroyActions();
+
+    public ThreadWorker(IEnumerator _task)
+    {
+        task = _task;
+    }
+
+    public void Start()
     {
         ChildThread = new Thread(ThreadLoop);
-        ChildThread.Start(threadImplementation);
+        ChildThread.Start(task);
     }
 
     public void Resume() {
@@ -36,12 +45,12 @@ public class ThreadWorker
             AbortHandle.WaitOne();
     }
 
-    private void ThreadLoop(object threadImplementation) {
+    private void ThreadLoop(object taskObject) {
         try
         {
-            var impl = threadImplementation as IEnumerator;
+            var task = taskObject as IEnumerator;
 
-            while(!WantAbort && impl.MoveNext()) {
+            while(!WantAbort &&  task.MoveNext()) {
                 if(WantAbort)
                     break;
                 

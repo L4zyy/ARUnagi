@@ -5,7 +5,7 @@ import time
 import datetime
 
 HOST = 'localhost' 
-PORT = 13296 
+PORT = 12345 
 HEADER = 64
 FORMAT = 'utf-8'
 DISCONNECT_MSG = '!DISCONNECT'

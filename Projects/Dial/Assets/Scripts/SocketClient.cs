@@ -8,78 +8,70 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-public class SocketClient : MonoBehaviour
+public class SocketClient
 {
     private TcpClient client; 
     private Thread clientReceiveThread; 
-    private volatile bool running = false;
 
-    public String ip = "localhost";
-    public int port = 13296;
+    public volatile bool running = false;
+    public NetworkStream stream = null;
 
-    // Use this for initialization     
-    void Start () {
-        ConnectToTcpServer();     
+    public string ip;
+    public int port;
+
+    public SocketClient(string _ip = "localhost", int _port = 12345) {
+        ip = _ip;
+        port = _port;
     }
-    // Update is called once per frame
-    void Update () {         
+
+    public bool ConnectToTcpServer () {         
+        try
+        {
+            Debug.LogFormat("Trying to connect to: {0}:{1}", ip, port);
+            client = new TcpClient(ip, port);              
+            stream = client.GetStream();
+            running = true;
+            return true;
+        }
+        catch (SocketException socketException) {             
+            Debug.Log("Socket exception: " + socketException);         
+            return false;
+        }     
     }      
 
-    void SendMessage(NetworkStream stream, String msg) {
+    public string ListenForData() {
+        // Get a stream object for reading                 
+        Byte[] bytes = new Byte[25*4];
+
+        string msg = "";
+
+        int length;
+        // Read incomming stream into byte arrary.                     
+        if ((length = stream.Read(bytes, 0, bytes.Length)) != 0 && running) {
+            var incommingData = new float[bytes.Length/4]; 
+            // Array.Copy(bytes, 0, incommingData, 0, length);                         
+            Buffer.BlockCopy(bytes, 0, incommingData, 0, bytes.Length);
+            // Convert byte array to string message.                         
+            msg = System.Text.Encoding.UTF8.GetString(bytes, 0, length);
+        }
+
+        return msg;
+    }      
+
+    public void SendMessage(NetworkStream stream, string msg) {
         Byte[] sendBytes = Encoding.UTF8.GetBytes (msg);
         if (stream.CanWrite) {
             stream.Write(sendBytes, 0, sendBytes.Length);
         }
     }
 
+    public void Close() {
+        stream.Close();
+        client.Close();
+    }
+
     void OnDestroy() {
         running = false;
     }
-    /// <summary>
-    /// Setup socket connection.     
-    /// </summary>
-    private void ConnectToTcpServer () {         
-        try {
-            clientReceiveThread = new Thread (new ThreadStart(ListenForData));             
-            clientReceiveThread.IsBackground = true;             
-            clientReceiveThread.Start();
-        }         
-        catch (Exception e) {             
-            Debug.Log("On client connect exception " + e);         
-        }     
-    }      
-    /// <summary>     
-    /// Runs in background clientReceiveThread; Listens for incomming data.     
-    /// </summary>     
-    private void ListenForData() {         
-        running = true;
-        try {             
-            client = new TcpClient(ip, port);              
-            Byte[] bytes = new Byte[25*4];
-            while (running) {
-                // Get a stream object for reading                 
-                using (NetworkStream stream = client.GetStream()) {                     
-                    int length;
-                    // Read incomming stream into byte arrary.                     
-                    while ((length = stream.Read(bytes, 0, bytes.Length)) != 0 && running) {
-                        var incommingData = new float[bytes.Length/4]; 
-                        // Array.Copy(bytes, 0, incommingData, 0, length);                         
-                        Buffer.BlockCopy(bytes, 0, incommingData, 0, bytes.Length);
-                        // Convert byte array to string message.                         
-                        // Debug.Log("[ " + item.ToString("00:00:00") + "]");
-                        String msg = System.Text.Encoding.UTF8.GetString(bytes, 0, length);
-                        // GameObject.Find("Timer").GetComponent<Text>().text = msg;
-                        Debug.Log("Current Time [" + msg + "]");
 
-                        msg = "test";
-                        SendMessage(stream, msg);
-                    }                 
-                }             
-            }         
-            client.Close();
-        }         
-        catch (SocketException socketException) {             
-            Debug.Log("Socket exception: " + socketException);         
-        }     
-    }      
 }
