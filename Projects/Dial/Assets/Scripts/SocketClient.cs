@@ -66,8 +66,10 @@ public class SocketClient
     }
 
     public void Close() {
-        stream.Close();
-        client.Close();
+        if (stream != null)
+            stream.Close();
+        if (client != null)
+            client.Close();
     }
 
     void OnDestroy() {

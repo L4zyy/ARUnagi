@@ -39,6 +39,13 @@
      <Compile Include="Assets\Scripts\ThreadWorker.cs" />
      <Compile Include="Assets\Scripts\SocketClient.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\Hand.cs" />
+     <None Include="Assets\Scripts\Python\minimal-hand\model\mano_v1_2\models\info.txt" />
+     <None Include="Assets\Scripts\Python\minimal-hand\requirements.txt" />
+     <None Include="Assets\Scripts\Python\minimal-hand\model\mano_v1_2\webuser\LICENSE.txt" />
+     <None Include="Assets\Scripts\Python\minimal-hand\model\mano_v1_2\LICENSE.txt" />
+     <None Include="Assets\Scripts\Python\minimal-hand\model\mano_v1_2\models\LICENSE.txt" />
+     <None Include="Assets\Scripts\Python\minimal-hand\model\mano_v1_2\webuser\README.txt" />
     <Reference Include="UnityEngine">
         <HintPath>C:/Program Files/Unity/Hub/Editor/2020.1.1f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
