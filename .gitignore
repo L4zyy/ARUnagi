@@ -7,3 +7,5 @@
 # compilation
 __pycache__
 
+# project library folder
+Projects/Dial/Library

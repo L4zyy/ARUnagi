@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     {
         client = new SocketClient(ip, port);
         if (client.ConnectToTcpServer()) {
-            while (client.running) {
+            while (client.running && client.Available()) {
                 string msg = client.ListenForData();
 
                 Debug.Log("Current Time [" + msg + "]");

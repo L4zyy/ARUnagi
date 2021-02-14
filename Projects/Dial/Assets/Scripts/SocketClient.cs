@@ -24,6 +24,14 @@ public class SocketClient
         port = _port;
     }
 
+    public bool Available() {
+        try
+        {
+            return !(client.Client.Poll(1, SelectMode.SelectRead) && client.Client.Available == 0);
+        }
+        catch (SocketException) { return false; }
+    }
+
     public bool ConnectToTcpServer () {         
         try
         {
