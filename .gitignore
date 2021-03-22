@@ -8,4 +8,4 @@
 __pycache__
 
 # project library folder
-Projects/Dial/Library
+Projects/*/Library
