@@ -1,31 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityEngine.UI", "UnityEngine.UI.csproj", "{25d1aae3-e25c-2c7c-30d1-228ecde913b4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{6d28c900-39aa-6eaa-49fe-d93b7f0c7f13}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.2D.Sprite.Editor", "Unity.2D.Sprite.Editor.csproj", "{1a371d85-f445-b806-546e-23fceb113ae2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityEditor.UI", "UnityEditor.UI.csproj", "{fe336555-7d6e-e477-73c6-67b75b37b0e1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.2D.Tilemap.Editor", "Unity.2D.Tilemap.Editor.csproj", "{4bbb3f42-9f2c-474c-ad6a-a123f702e779}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{00C9286D-AA39-AA6E-49FE-D93B7F0C7F13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{25d1aae3-e25c-2c7c-30d1-228ecde913b4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{25d1aae3-e25c-2c7c-30d1-228ecde913b4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6d28c900-39aa-6eaa-49fe-d93b7f0c7f13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6d28c900-39aa-6eaa-49fe-d93b7f0c7f13}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1a371d85-f445-b806-546e-23fceb113ae2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1a371d85-f445-b806-546e-23fceb113ae2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{fe336555-7d6e-e477-73c6-67b75b37b0e1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{fe336555-7d6e-e477-73c6-67b75b37b0e1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4bbb3f42-9f2c-474c-ad6a-a123f702e779}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4bbb3f42-9f2c-474c-ad6a-a123f702e779}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00C9286D-AA39-AA6E-49FE-D93B7F0C7F13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00C9286D-AA39-AA6E-49FE-D93B7F0C7F13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00C9286D-AA39-AA6E-49FE-D93B7F0C7F13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00C9286D-AA39-AA6E-49FE-D93B7F0C7F13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
