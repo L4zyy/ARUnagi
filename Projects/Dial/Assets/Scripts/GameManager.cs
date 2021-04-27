@@ -45,9 +45,16 @@ public class GameManager : MonoBehaviour
         client = new SocketClient(ip, port);
         if (client.ConnectToTcpServer()) {
             while (client.running && client.Available()) {
-                string msg = client.ListenForData();
+                string msg = "";
 
-                Debug.Log("Current Time [" + msg + "]");
+                Byte[] data = client.ListenForData();
+                
+                if (data != null)
+                {
+                    msg = System.Text.Encoding.UTF8.GetString(data, 0, 8);
+
+                    Debug.Log("Current Time [" + msg + "]");
+                }
 
                 msg = "test";
                 client.SendMessage(client.stream, msg);

@@ -3,6 +3,7 @@
 import socket 
 import time
 import datetime
+import signal
 
 import sys
 sys.path.append('../../../../../')
@@ -28,8 +29,15 @@ def sendTime(conn):
 t = aru.network.SocketServerThread(HOST, PORT, HEADER, FORMAT, sendTime)
 
 t.start()
-time.sleep(15)
-t.stop = True
-print("setting...")
 
-t.join()
+def signal_handler(signal, frame):
+    t.stop = True
+    print('set stop')
+    t.join()
+    print('thread stopped')
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
+
+while True:
+    pass

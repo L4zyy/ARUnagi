@@ -25,4 +25,4 @@ def load(file):
     else:
         print('Unsupported file format.')
 
-load("./bunny.obj")
+load("../../tests/data/bunny.obj")
