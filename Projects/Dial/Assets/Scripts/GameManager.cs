@@ -47,17 +47,29 @@ public class GameManager : MonoBehaviour
             while (client.running && client.Available()) {
                 string msg = "";
 
-                Byte[] data = client.ListenForData();
-                
-                if (data != null)
-                {
-                    msg = System.Text.Encoding.UTF8.GetString(data, 0, 8);
+                int length = new int();
+                bool received = client.ListenForLength(ref length);
+                if (received) {
+                    client.SendMessage(client.stream, "true");
 
-                    Debug.Log("Current Time [" + msg + "]");
+                    Byte[] data = new Byte[length*4];
+                    received = client.ListenForData(ref data);
+                
+                    if (received)
+                    {
+                        msg = System.Text.Encoding.UTF8.GetString(data, 0, length);
+
+                        client.SendMessage(client.stream, "true");
+
+                        Debug.Log("Current Time [" + msg + "]");
+                    } else {
+                        client.SendMessage(client.stream, "false");
+                    }
+
+                } else {
+                    client.SendMessage(client.stream, "false");
                 }
 
-                msg = "test";
-                client.SendMessage(client.stream, msg);
                 yield return null;
             }
             client.Close();

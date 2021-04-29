@@ -47,25 +47,24 @@ public class SocketClient
         }     
     }      
 
-    public Byte[] ListenForData(int len = 25) {
-        // Get a stream object for reading                 
-        Byte[] bytes = new Byte[len*4];
-
-        // string msg = "";
-
-        int length;
-        // Read incomming stream into byte arrary.                     
-        if ((length = stream.Read(bytes, 0, bytes.Length)) != 0 && running) {
-            // var incommingData = new float[bytes.Length/4]; 
-            // Array.Copy(bytes, 0, incommingData, 0, length);                         
-            // Buffer.BlockCopy(bytes, 0, incommingData, 0, bytes.Length);
-            // Convert byte array to string message.                         
-            // msg = System.Text.Encoding.UTF8.GetString(bytes, 0, length);
-            return bytes;
+    public bool ListenForLength(ref int length) {
+        int len;
+        Byte[] data = new Byte[4];
+        if ((len = stream.Read(data, 0, data.Length)) != 0) {
+            length = BitConverter.ToInt32(data, 0);
+            return true;
         }
 
-        // return msg;
-        return null;
+        return false;
+    }      
+
+    public bool ListenForData(ref Byte[] data) {
+        int length;
+        if ((length = stream.Read(data, 0, data.Length)) != 0 && running) {
+            return true;
+        }
+
+        return false;
     }      
 
     public void SendMessage(NetworkStream stream, string msg) {
