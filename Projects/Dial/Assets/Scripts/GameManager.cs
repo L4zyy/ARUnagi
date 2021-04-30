@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     private SocketClient client = null;
 
     void Start() {
-        worker = new ThreadWorker(GetStringFromPythonTask());
+        worker = new ThreadWorker(GetPoseTask());
         worker.Start();
         worker.Resume();
     }
@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator GetStringFromPythonTask(string ip = "localhost", int port = 12345)
+    IEnumerator GetTimeFromPythonTask(string ip = "localhost", int port = 12345)
     {
         client = new SocketClient(ip, port);
         if (client.ConnectToTcpServer()) {
@@ -76,5 +76,45 @@ public class GameManager : MonoBehaviour
             Debug.Log("Client Closed...");
         }      
     }
-}
+    IEnumerator GetPoseTask(string ip = "localhost", int port = 12345)
+    {
+        client = new SocketClient(ip, port);
+        if (client.ConnectToTcpServer()) {
+            while (client.running && client.Available()) {
+                int length = new int();
+                bool received = client.ListenForLength(ref length);
 
+                if (received) {
+                    client.SendMessage(client.stream, "true");
+                    int cnt = (int) length/(3*4);
+
+                    Byte[] data = new Byte[length];
+                    received = client.ListenForData(ref data);
+                
+                    if (received)
+                    {
+                        List<Vector3> coords = new List<Vector3>();
+                        for (int i = 0; i < cnt; i++)
+                        {
+                            Vector3 vec = new Vector3();
+                            vec[0] = BitConverter.ToSingle(data, i*3*4);
+                            vec[1] = BitConverter.ToSingle(data, i*3*4+4);
+                            vec[2] = BitConverter.ToSingle(data, i*3*4+2*4);
+                            coords.Add(vec);
+                        }
+                        client.SendMessage(client.stream, "true");
+                    } else {
+                        client.SendMessage(client.stream, "false");
+                    }
+
+                } else {
+                    client.SendMessage(client.stream, "false");
+                }
+
+                yield return null;
+            }
+            client.Close();
+            Debug.Log("Client Closed...");
+        }      
+    }
+}
