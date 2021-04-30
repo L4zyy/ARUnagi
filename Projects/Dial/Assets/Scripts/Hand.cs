@@ -6,6 +6,7 @@ public class Hand : MonoBehaviour
 {
     float width = 0.1f;
 
+    private GameManager manager;
     private GameObject[] joints = new GameObject[21];
     private GameObject[] bones = new GameObject[15];
 
@@ -13,6 +14,8 @@ public class Hand : MonoBehaviour
 
     void Start()
     {
+        manager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
        float[,] newPos = new float[21,3] {
             { 4.75001544E-01f,  7.41917133E-01f,  2.21458763E-01f},
             { 1.63009092E-02f,  5.96636355E-01f,  1.43576756E-01f},
@@ -44,6 +47,7 @@ public class Hand : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdatePos(manager.GetPose());
         UpdateJointsAndBones();
     }
 

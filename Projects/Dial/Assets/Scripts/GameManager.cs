@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     private ThreadWorker worker = null;
 
     private SocketClient client = null;
+    private float[,] vertices = new float[21, 3];
 
     void Start() {
         worker = new ThreadWorker(GetPoseTask());
@@ -19,6 +20,10 @@ public class GameManager : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
+    }
+
+    public float[,] GetPose() {
+        return vertices;
     }
 
     void OnDestroy() {
@@ -93,15 +98,13 @@ public class GameManager : MonoBehaviour
                 
                     if (received)
                     {
-                        List<Vector3> coords = new List<Vector3>();
                         for (int i = 0; i < cnt; i++)
                         {
-                            Vector3 vec = new Vector3();
-                            vec[0] = BitConverter.ToSingle(data, i*3*4);
-                            vec[1] = BitConverter.ToSingle(data, i*3*4+4);
-                            vec[2] = BitConverter.ToSingle(data, i*3*4+2*4);
-                            coords.Add(vec);
+                            vertices[i, 0] = BitConverter.ToSingle(data, i*3*4);
+                            vertices[i, 1] = -BitConverter.ToSingle(data, i*3*4+4);  // positive y will be up-side-down in Unity
+                            vertices[i, 2] = BitConverter.ToSingle(data, i*3*4+2*4);
                         }
+
                         client.SendMessage(client.stream, "true");
                     } else {
                         client.SendMessage(client.stream, "false");
